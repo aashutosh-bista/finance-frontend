@@ -1,0 +1,101 @@
+@import "tailwindcss" source(none);
+@source "../src";
+
+/*
+ * Design system — "Passbook Ledger".
+ * Warm paper, ink-black type, brass accent, green deposits / red withdrawals.
+ * All colors are oklch tokens; never hardcode colors in components.
+ */
+
+@theme inline {
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted-ink: var(--muted-ink);
+  --color-line: var(--line);
+  --color-rail: var(--rail);
+  --color-brass: var(--brass);
+  --color-deposit: var(--deposit);
+  --color-withdraw: var(--withdraw);
+  --color-border: var(--line);
+}
+
+:root {
+  --radius: 0.75rem;
+
+  --paper: oklch(0.983 0.006 95);
+  --surface: oklch(1 0 0);
+  --ink: oklch(0.201 0.008 76);
+  --muted-ink: oklch(0.535 0.014 79);
+  --line: oklch(0.902 0.014 88);
+  --rail: oklch(0.951 0.01 92);
+  --brass: oklch(0.616 0.115 82);
+  --deposit: oklch(0.457 0.086 152);
+  --withdraw: oklch(0.512 0.152 33);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@utility rise {
+  animation: rise 0.5s cubic-bezier(0.32, 0.72, 0, 1) both;
+}
+
+/* Ledger form field: paper-tinted input inside a hairline ring. */
+@utility field {
+  width: 100%;
+  height: 2.75rem;
+  border-radius: var(--radius);
+  padding-inline: 0.75rem;
+  background-color: color-mix(in oklab, var(--paper) 55%, transparent);
+  box-shadow: inset 0 0 0 1px var(--line);
+  font-size: 13px;
+  color: var(--ink);
+
+  &::placeholder {
+    color: var(--muted-ink);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: inset 0 0 0 1px var(--brass);
+  }
+}
+
+@utility label-ledger {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted-ink);
+}
